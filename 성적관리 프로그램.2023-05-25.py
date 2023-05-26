@@ -1,3 +1,4 @@
+#깃허브 프로그램 사용하기
 import tkinter as tk
 
 window = tk.Tk()
