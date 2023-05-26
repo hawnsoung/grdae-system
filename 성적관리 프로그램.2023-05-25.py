@@ -35,8 +35,6 @@ def course_system():
 
 def back_main_menu():
     button1.pack()
-    button2.pack()
-    button3.pack()
     delete_menu()
 
 def add_student():
@@ -198,10 +196,10 @@ button1=tk.Button(window,text="학생관리시스템",command=student_system)
 button1.pack()
 
 button2=tk.Button(window,text="수강정보시스템",command=course_system)
-button2.pack()
+button2.pack_forget()
 
 button3=tk.Button(window,text="성적정보확인시스템",command=grade_system)
-button3.pack()
+button3.pack_forget()
 
 button1_1=tk.Button(window,text="학생추가",command=add_student)
 button1_1.pack_forget()
