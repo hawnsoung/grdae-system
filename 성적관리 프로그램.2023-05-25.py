@@ -24,6 +24,7 @@ def student_system():
     button_return.pack_forget()
     student_listbox.pack_forget()
     delete_button.pack_forget()
+    delete_entry()
      
 def course_system():
     button1.pack_forget()
@@ -59,7 +60,7 @@ def add_student():
     password.pack()
     entry_password=tk.Entry()
     entry_password.pack()
-    answer_button.configure(command=lambda: save(entry_name.get(),entry_number.get(),entry_phone.get(),entry_password()))
+    answer_button.configure(command=lambda: save(entry_name.get(),entry_number.get(),entry_phone.get(),entry_password.get()))
     answer_button.pack()
     button_return.pack()
     button1_4.pack()
@@ -119,6 +120,10 @@ def delete_entry():
     password.pack_forget()
     entry_password.pack_forget()
     answer_button.pack_forget()
+    entry_name.delete(0,tk.END)
+    entry_number.delete(0,tk.END)
+    entry_phone.delete(0,tk.END)
+    entry_password.delete(0,tk.END)
     
     
     
