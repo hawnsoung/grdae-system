@@ -1,4 +1,4 @@
-#깃허브 프로그램 사용하기
+
 import tkinter as tk
 
 window = tk.Tk()
@@ -28,8 +28,7 @@ def student_system():
     delete_entry()
      
 def course_system():
-    button1.pack_forget()
-    button2.pack_forget()
+    delete_menu()
     button2_1.pack() 
     button2_2.pack()
     button1_4.pack()
@@ -107,8 +106,11 @@ def delete_menu():
     button2_2.pack_forget()
     student_listbox.pack_forget()
     delete_button.pack_forget()
+    button_return.pack_forget()
+    answer_button.pack_forget()
     
-  
+
+    
     
 
 def delete_entry():
@@ -158,14 +160,15 @@ def login_collect(number,password):
         entry_number1.pack_forget()
         entry_password1.pack_forget()
         password1.pack_forget()
+        button_return.pack()
+        delete_menu()
+        course_system()
         
     else:
         print("잘못된 접근입니다")
 
 def grade_system():
-    button1.pack_forget()   
-    button2.pack_forget()
-    button3.pack_forget()
+    delete_menu()
     login()
 
     
@@ -206,11 +209,14 @@ button1_1.pack_forget()
 button1_2=tk.Button(window,text="학생삭제",command=delete_student)
 button1_2.pack_forget()
 
-button1_3=tk.Button(window,text="학생확인",command=login)
+button1_3=tk.Button(window,text="학생확인",command=grade_system)
 button1_3.pack_forget()
 
 button1_4=tk.Button(text="메인메뉴로 돌아가기",command=back_main_menu)
 button1_4.pack_forget()
+
+button1_5=tk.Button(text="수강정보추가")
+button1_5.pack_forget()
 
 button2_1=tk.Button(text="수강정보확인")
 button2_1.pack_forget()
