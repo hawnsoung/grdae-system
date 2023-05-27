@@ -11,6 +11,7 @@ phones=[]   #학생의 핸드폰 번호
 course=["프로그래밍 입문","크리에이티브디자인","ai응용수학","실용영어"]#학생의 수강정보
 passwords=['1']
 slected_course=[]
+students={}
 
 
 
@@ -132,10 +133,13 @@ def delete_entry():
     
 
 def save(name,number,phone,password):
+    studentinfo={
+        '학번':number,
+        '비밀번호':password
+    }
     names.append(name)
-    numbers.append(number)
     phones.append(phone)
-    passwords.append(password)
+    students.update(studentinfo)
     student_system()
 
 
