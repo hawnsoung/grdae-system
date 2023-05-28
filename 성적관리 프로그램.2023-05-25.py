@@ -27,6 +27,7 @@ def student_system():
     student_listbox.pack_forget()
     delete_button.pack_forget()
     delete_entry()
+    
      
 def course_system():
     delete_menu()
@@ -106,42 +107,36 @@ def delete_menu():
     student_listbox.pack_forget()
     delete_button.pack_forget()
     button_return.pack_forget()
-    answer_button.pack_forget()
-    
-
-    
-    
+    answer_button.pack_forget()   
 
 def delete_entry():
-    entry_name.pack_forget()
-    entry_number.pack_forget()
-    entry_phone.pack_forget()
-    label_name.pack_forget()
-    student_number.pack_forget()
-    phone_number.pack_forget()
-    password.pack_forget()
-    entry_password.pack_forget()
-    answer_button.pack_forget()
-    entry_name.delete(0,tk.END)
-    entry_number.delete(0,tk.END)
-    entry_phone.delete(0,tk.END)
-    entry_password.delete(0,tk.END)
-    
-    
-    
-
-    
+        global entry_name
+        entry_name.pack_forget()
+        entry_number.pack_forget()
+        entry_phone.pack_forget()
+        label_name.pack_forget()
+        student_number.pack_forget()
+        phone_number.pack_forget()
+        password.pack_forget()
+        entry_password.pack_forget()
+        answer_button.pack_forget()
+        entry_name.delete(0,tk.END)
+        entry_number.delete(0,tk.END)
+        entry_phone.delete(0,tk.END)
+        entry_password.delete(0,tk.END)
+        entry_number1.pack_forget()
+        entry_password1.pack_forget()
+        student_number1.pack_forget()
+        password1.pack_forget()
 
 def save(name,number,phone,password):
-    studentinfo={
-        '학번':number,
+    students[number]={
+        '이름':name,
         '비밀번호':password
     }
     names.append(name)
     phones.append(phone)
-    students.update(studentinfo)
     student_system()
-
 
 def login():
     global entry_number1,entry_password1,student_number1,password1
@@ -155,9 +150,10 @@ def login():
     entry_password1.pack()
     answer_button.configure(command=lambda: login_collect((entry_number1.get()),entry_password1.get()))
     answer_button.pack()
+    button_return.pack()
     
 def login_collect(number,password):
-    if number in numbers and password in passwords:
+    if number in students and students[number]['비밀번호'] == password:
         student_number1.pack_forget()
         entry_number1.pack_forget()
         entry_password1.pack_forget()
@@ -167,6 +163,8 @@ def login_collect(number,password):
         course_system()
         
     else:
+        entry_number1.delete(0,tk.END)
+        entry_password1.delete(0,tk.END)
         print("잘못된 접근입니다")
 
 def grade_system():
