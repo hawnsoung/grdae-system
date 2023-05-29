@@ -12,6 +12,7 @@ course=["프로그래밍 입문","크리에이티브디자인","ai응용수학",
 passwords=['1']
 slected_course=[]
 students={}
+filename=r"C:\Users\유환성\Desktop\student.txt"
 
 
 
@@ -132,11 +133,24 @@ def delete_entry():
 def save(name,number,phone,password):
     students[number]={
         '이름':name,
-        '비밀번호':password
-    }
-    names.append(name)
-    phones.append(phone)
-    student_system()
+        '비밀번호':password,
+        '전화번호':phone,
+        '학번':number    
+    } 
+    with open(filename, 'w') as file:
+    
+        for student_number, student_data in students.items():
+            # Accessing student information from student_data dictionary
+            name = student_data['이름']
+            student_number = student_data['학번']
+            phone_number = student_data['전화번호']
+            password = student_data['비밀번호']
+
+                # Writing student information to the file
+            line = f"{name},{student_number},{phone_number},{password}\n"
+            file.write(line)
+            student_system()
+    
 
 def login():
     global entry_number1,entry_password1,student_number1,password1
