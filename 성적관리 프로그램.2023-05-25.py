@@ -129,6 +129,7 @@ def delete_entry():
         entry_password1.pack_forget()
         student_number1.pack_forget()
         password1.pack_forget()
+        asdfasdfasdfas
 
 def save(name,number,phone,password):
     students[number]={
