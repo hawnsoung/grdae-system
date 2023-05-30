@@ -84,17 +84,29 @@ while True: #메인메뉴
             print("""=================
             1.수강과목 등록
             2.수강과목 삭제
-            3.성적확인
-            4.
-            
             =========================""")
             user_input=int(input("원하는 기능을 선택하세요"))
             if user_input==1:
                 while True:
-                    for i in range(len(names)):
-                        print("No. " + str(i+1) + ", " + names[i])
-                    print("학생의 이름을 선택하세요")
-            
+                        print("학생이 수강하고 있는 과목을 선택하세요")
+                        for i in range(len(course)):
+                            print("No. " + str(i+1) + ", " + course[i])
+                        try:    
+                            user_input=int(input("원하는 과목 번호를 선택하세요"))
+                            print("과목선택이 완료 되었습니까: y/n")
+                        
+                            if user_input<1 or user_input>len(course) :
+                                    print("잘못된 입력입니다")
+                            else:
+                                slected_course.append(user_input)
+                                choice=input(user_input)
+                                if choice.lower()=="y":
+                                    print("학생의 수강정보 입력이 완료 되었습니다.")
+                                    break
+                        except ValueError:
+                            print("잘못된 입력입니다.")
+            if user_input==2:
+                
                   
     elif user_input==5:
         break   
