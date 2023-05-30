@@ -100,5 +100,5 @@ while True: #메인메뉴
     elif user_input==5:
         break
         
-        
+        adsfasdfasdf
     

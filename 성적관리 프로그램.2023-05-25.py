@@ -13,7 +13,7 @@ passwords=['1']
 slected_course=[]
 students={}
 filename=r"C:\Users\유환성\Desktop\student.txt"
-박준현 병신
+
 
 
 def student_system():
@@ -153,34 +153,41 @@ def save(name,number,phone,password):
             student_system()
     
 
-def login():
-    global entry_number1,entry_password1,student_number1,password1
-    student_number1 = tk.Label(text="학번:")
-    student_number1.pack()
-    entry_number1 = tk.Entry()
-    entry_number1.pack()
-    password1 = tk.Label(text="비밀번호")
-    password1.pack()
-    entry_password1=tk.Entry()
-    entry_password1.pack()
-    answer_button.configure(command=lambda: login_collect((entry_number1.get()),entry_password1.get()))
-    answer_button.pack()
-    button_return.pack()
-    
-def login_collect(number,password):
-    if number in students and students[number]['비밀번호'] == password:
-        student_number1.pack_forget()
-        entry_number1.pack_forget()
-        entry_password1.pack_forget()
-        password1.pack_forget()
+    def login():
+        global entry_number1,entry_password1,student_number1,password1
+        student_number1 = tk.Label(text="학번:")
+        student_number1.pack()
+        entry_number1 = tk.Entry()
+        entry_number1.pack()
+        password1 = tk.Label(text="비밀번호")
+        password1.pack()
+        entry_password1=tk.Entry()
+        entry_password1.pack()
+        answer_button.configure(command=lambda: login_collect((entry_number1.get()),entry_password1.get()))
+        answer_button.pack()
         button_return.pack()
-        delete_menu()
-        course_system()
         
-    else:
-        entry_number1.delete(0,tk.END)
-        entry_password1.delete(0,tk.END)
-        print("잘못된 접근입니다")
+    def login_collect(number,password):
+        with open("students.txt", "r") as file:
+            for line in file:
+                line = line.strip()
+                stored_student_number, stored_password = line.split(",")
+                
+                if number == stored_student_number and password == stored_password:
+                    print("Login successful!")
+                    student_number1.pack_forget()
+                    entry_number1.pack_forget()
+                    entry_password1.pack_forget()
+                    password1.pack_forget()
+                    button_return.pack()
+                    delete_menu()
+                    course_system()
+                    return
+        
+                else:
+                    entry_number1.delete(0,tk.END)
+                    entry_password1.delete(0,tk.END)
+                    print("잘못된 접근입니다")
 
 def grade_system():
     delete_menu()
