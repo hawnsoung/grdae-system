@@ -12,7 +12,7 @@ course=["프로그래밍 입문","크리에이티브디자인","ai응용수학",
 passwords=['1']
 slected_course=[]
 students={}
-filename=r"C:\Users\유환성\Desktop\student.txt"
+filename=r"C:\Users\OWNER\Documents\GitHub\grdae-system\student.txt"
 
 
 
@@ -77,13 +77,42 @@ def slected_courses():
             course_listbox.insert(tk.END, info)
 
 def deleted1_student():
+    delete_menu()
+    student_listbox.pack()
+    student_listbox.delete(0,tk.END)
+    with open('student.txt', 'r') as file:
+        lines=file.readlines()
+    for line in lines:
+        line = line.strip()
+        name,number,phone = line.split(',')[0:3]
+        info = f"Name: {name}, Number: {number}, Phone: {phone}"
+        student_listbox.insert(tk.END, info)
+
     selected_indices = student_listbox.curselection()
     if selected_indices:
-        for index in reversed(selected_indices):
-            student_listbox.delete(index)
-            names.pop(index)
-            numbers.pop(index)
-            phones.pop(index)
+        with open('student.txt','r') as file:
+            lines=file.readlines()
+            
+        with open('student.txt','w') as file:
+             for index, line in enumerate(lines):
+                    if index not in selected_indices:
+                        file.write(line)
+            
+        names.clear()
+        numbers.clear()
+        phones.clear()
+
+        with open('student.txt', 'r') as file:
+            for line in file:
+                name, number, phone = line.strip().split(',')
+                names.append(name)
+                numbers.append(number)
+                phones.append(phone)
+                
+        for i in range(len(names)):
+            info = f"Name: {names[i]}, Number: {numbers[i]}, Phone: {phones[i]}"
+            student_listbox.insert(tk.END, info)
+    button_return.pack()
 
 def delete_student():
     delete_menu()
@@ -129,7 +158,6 @@ def delete_entry():
         entry_password1.pack_forget()
         student_number1.pack_forget()
         password1.pack_forget()
-        asdfasdfasdfas
 
 def save(name,number,phone,password):
     students[number]={
@@ -153,25 +181,25 @@ def save(name,number,phone,password):
             student_system()
     
 
-    def login():
-        global entry_number1,entry_password1,student_number1,password1
-        student_number1 = tk.Label(text="학번:")
-        student_number1.pack()
-        entry_number1 = tk.Entry()
-        entry_number1.pack()
-        password1 = tk.Label(text="비밀번호")
-        password1.pack()
-        entry_password1=tk.Entry()
-        entry_password1.pack()
-        answer_button.configure(command=lambda: login_collect((entry_number1.get()),entry_password1.get()))
-        answer_button.pack()
-        button_return.pack()
+def login():
+    global entry_number1,entry_password1,student_number1,password1
+    student_number1 = tk.Label(text="학번:")
+    student_number1.pack()
+    entry_number1 = tk.Entry()
+    entry_number1.pack()
+    password1 = tk.Label(text="비밀번호")
+    password1.pack()
+    entry_password1=tk.Entry()
+    entry_password1.pack()
+    answer_button.configure(command=lambda: login_collect((entry_number1.get()),entry_password1.get()))
+    answer_button.pack()
+    button_return.pack()
         
     def login_collect(number,password):
-        with open("students.txt", "r") as file:
+        with open("student.txt", "r") as file:
             for line in file:
                 line = line.strip()
-                stored_student_number, stored_password = line.split(",")
+                stored_student_number, stored_password = line.split(",")[1:3]
                 
                 if number == stored_student_number and password == stored_password:
                     print("Login successful!")
@@ -228,7 +256,7 @@ button3.pack_forget()
 button1_1=tk.Button(window,text="학생추가",command=add_student)
 button1_1.pack_forget()
 
-button1_2=tk.Button(window,text="학생삭제",command=delete_student)
+button1_2=tk.Button(window,text="학생삭제",command=deleted1_student)
 button1_2.pack_forget()
 
 button1_3=tk.Button(window,text="학생확인",command=grade_system)
