@@ -13,7 +13,7 @@ passwords=['1']
 slected_course=[]
 students={}
 filename=r"C:\Users\유환성\Desktop\student.txt"
-
+asasasas
 
 
 def student_system():
