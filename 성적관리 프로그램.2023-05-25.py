@@ -1,5 +1,6 @@
 
 import tkinter as tk
+from tkinter import messagebox
 
 window = tk.Tk()
 window.geometry("200x300")
@@ -35,6 +36,27 @@ def course_system():
     button2_1.pack() 
     button2_2.pack()
     button1_4.pack()
+    button1_5.pack()
+   
+    
+
+def course_course():
+    delete_menu()
+    for i, course_name in enumerate(course):
+        checkbox = tk.Checkbutton(text=course_name, command=lambda idx=i: select_course(idx))
+        checkbox.pack()
+        button_return2.pack(side=tk.BOTTOM)
+        
+    
+def select_course(index):
+    course_name = course[index]
+    if course_name in slected_course:
+        slected_course.remove(course_name)
+        messagebox.showinfo("알림", f"{course_name}이(가) 선택 해제되었습니다.")
+    else:
+        slected_course.append(course_name)
+        messagebox.showinfo("알림", f"{course_name}이(가) 선택되었습니다.")
+
 
 def back_main_menu():
     button1.pack()
@@ -134,6 +156,8 @@ def delete_menu():
     button1_4.pack_forget()
     button2_1.pack_forget()
     button2_2.pack_forget()
+    button2_3.pack_forget()
+    button1_5.pack_forget()
     student_listbox.pack_forget()
     delete_button.pack_forget()
     button_return.pack_forget()
@@ -265,7 +289,7 @@ button1_3.pack_forget()
 button1_4=tk.Button(text="메인메뉴로 돌아가기",command=back_main_menu)
 button1_4.pack_forget()
 
-button1_5=tk.Button(text="수강정보추가")
+button1_5=tk.Button(text="수강정보추가",command=course_course)
 button1_5.pack_forget()
 
 button2_1=tk.Button(text="수강정보확인")
@@ -273,6 +297,12 @@ button2_1.pack_forget()
 
 button2_2=tk.Button(text="수강시간확인")
 button2_2.pack_forget()
+
+button2_3=tk.Button(text="수강정보")
+button2_3.pack_forget()
+
+button_return2=tk.Button(text="이전",command=course_system)
+button_return2.pack_forget()
 
 
 answer_button=tk.Button(text="확인")
