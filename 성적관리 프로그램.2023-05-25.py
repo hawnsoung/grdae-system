@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from tkinter import messagebox
 
@@ -6,70 +5,79 @@ window = tk.Tk()
 window.geometry("200x300")
 window.title("학생 수강 정보 관리 시스템")
 
-names=[]    #학생의 이름
-numbers=['1'] #학생의 학번
-phones=[]   #학생의 핸드폰 번호
-course=["프로그래밍 입문","크리에이티브디자인","ai응용수학","실용영어"]#학생의 수강정보
-passwords=['1']
-slected_course=[]
-students={}
-filename=r"C:\Users\OWNER\Documents\GitHub\grdae-system\student.txt"
+names = []  # 학생의 이름
+numbers = ['1']  # 학생의 학번
+phones = []  # 학생의 핸드폰 번호
+course = ["프로그래밍 입문", "크리에이티브디자인", "ai응용수학", "실용영어"]  # 학생의 수강정보
+passwords = ['1']
+selected_course = []
+students = {}
+filename = r"C:\Users\Administrator\Desktop\박준현\student.txt"
 
+entry_name = None  # entry_name 변수 초기화
+entry_number = None  # entry_number 변수 초기화
+entry_phone = None  # entry_phone 변수 초기화
+entry_password = None  # entry_password 변수 초기화
 
 
 def student_system():
-    button1.pack_forget()   
-    button2.pack_forget()
-    button3.pack_forget()
-    button1_1.pack(side=tk.TOP) 
-    button1_2.pack(side=tk.TOP) 
+    if button1 is not None:
+        button1.pack_forget()
+    if button2 is not None:
+        button2.pack_forget()
+    if button3 is not None:
+        button3.pack_forget()
+    button1_1.pack(side=tk.TOP)
+    button1_2.pack(side=tk.TOP)
     button1_3.pack(side=tk.TOP)
-    button1_4.pack(side=tk.TOP)
     button_return.pack_forget()
     student_listbox.pack_forget()
     delete_button.pack_forget()
     delete_entry()
-    
-     
+
+
 def course_system():
     delete_menu()
-    button2_1.pack() 
+    button2_1.pack()
     button2_2.pack()
     button1_4.pack()
     button1_5.pack()
-   
-    
+
 
 def course_course():
     delete_menu()
     for i, course_name in enumerate(course):
         checkbox = tk.Checkbutton(text=course_name, command=lambda idx=i: select_course(idx))
         checkbox.pack()
-        button_return2.pack(side=tk.BOTTOM)
-        
-    
+    button_return2.pack(side=tk.BOTTOM)
+
+
 def select_course(index):
     course_name = course[index]
-    if course_name in slected_course:
-        slected_course.remove(course_name)
+    if course_name in selected_course:
+        selected_course.remove(course_name)
         messagebox.showinfo("알림", f"{course_name}이(가) 선택 해제되었습니다.")
     else:
-        slected_course.append(course_name)
+        selected_course.append(course_name)
         messagebox.showinfo("알림", f"{course_name}이(가) 선택되었습니다.")
 
 
 def back_main_menu():
-    button1.pack()
+    if button1 is not None:
+        button1.pack()
     delete_menu()
 
+
 def add_student():
-    button1.pack_forget()
-    button2.pack_forget()
+    if button1 is not None:
+        button1.pack_forget()
+    if button2 is not None:
+        button2.pack_forget()
     delete_menu()
-    global entry_name, entry_number, entry_phone,label_name,student_number,phone_number,entry_password,password
+    global entry_name, entry_number, entry_phone, label_name, student_number, phone_number, entry_password, password
     label_name = tk.Label(text="이름:")
     label_name.pack()
-    entry_name= tk.Entry()
+    entry_name = tk.Entry()
     entry_name.pack()
     student_number = tk.Label(text="학번:")
     student_number.pack()
@@ -81,12 +89,21 @@ def add_student():
     entry_phone.pack()
     password = tk.Label(text="비밀번호")
     password.pack()
-    entry_password=tk.Entry()
+    entry_password = tk.Entry()
     entry_password.pack()
-    answer_button.configure(command=lambda: save(entry_name.get(),entry_number.get(),entry_phone.get(),entry_password.get()))
+    answer_button.configure(command=lambda: save(entry_name.get(), entry_number.get(), entry_phone.get(),
+                                                 entry_password.get()))
     answer_button.pack()
     button_return.pack()
-    button1_4.pack()
+    if button1_4 is not None:
+        button1_4.pack()
+
+
+
+
+
+
+
 
 def slected_courses():
     delete_menu()
