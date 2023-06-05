@@ -12,12 +12,13 @@ course = ["프로그래밍 입문", "크리에이티브디자인", "ai응용수�
 passwords = ['1']
 selected_course = []
 students = {}
-filename = r"C:\Users\OWNER\Documents\GitHub\grdae-system\student.txt"
+filename = r"C:\Users\hawns\OneDrive\문서\GitHub\grdae-system\student.txt"
 
 entry_name = None  # entry_name 변수 초기화
 entry_number = None  # entry_number 변수 초기화
 entry_phone = None  # entry_phone 변수 초기화
 entry_password = None  # entry_password 변수 초기화
+entry_number1 = None
 
 
 def student_system():
@@ -34,40 +35,6 @@ def student_system():
     student_listbox.pack_forget()
     delete_button.pack_forget()
     delete_entry()
-
-
-def course_system():
-    delete_menu()
-    button2_1.pack()
-    button2_2.pack()
-    button1_4.pack()
-    button1_5.pack()
-
-
-def course_course():
-    delete_menu()
-    for i, course_name in enumerate(course):
-        checkbox = tk.Checkbutton(text=course_name, command=lambda idx=i: select_course(idx))
-        checkbox.pack()
-    button_return2.pack(side=tk.BOTTOM)
-
-
-def select_course(index):
-    course_name = course[index]
-    if course_name in selected_course:
-        selected_course.remove(course_name)
-        messagebox.showinfo("알림", f"{course_name}이(가) 선택 해제되었습니다.")
-    else:
-        selected_course.append(course_name)
-        messagebox.showinfo("알림", f"{course_name}이(가) 선택되었습니다.")
-
-
-def back_main_menu():
-    if button1 is not None:
-        button1.pack()
-    delete_menu()
-
-
 def add_student():
     if button1 is not None:
         button1.pack_forget()
@@ -91,12 +58,97 @@ def add_student():
     password.pack()
     entry_password = tk.Entry()
     entry_password.pack()
-    answer_button.configure(command=lambda: save(entry_name.get(), entry_number.get(), entry_phone.get(),
-                                                 entry_password.get()))
+    answer_button.configure(command=lambda: save(entry_name.get(), entry_number.get(), entry_phone.get(),entry_password.get()))
     answer_button.pack()
     button_return.pack()
     if button1_4 is not None:
         button1_4.pack()
+def save(name,number,phone,password):
+        name = entry_name.get()
+        number = entry_number.get()
+        phone = entry_phone.get()
+        password = entry_password.get()
+
+        if not (name and number and phone and password):
+            # Display a warning message if any information is missing
+            messagebox.showwarning("필수 입력", "모든 정보를 입력하세요.")
+            return
+
+        if number in students:
+            # Display a warning message if the student number is already in the dictionary
+            messagebox.showwarning("학번 중복", "이미 등록된 학번입니다.")
+            return
+
+        students[number] = {
+            '이름': name,
+            '비밀번호': password,
+            '전화번호': phone,
+            '학번': number
+        }
+
+        with open('student.txt', 'w') as file:
+            for student_number, student_data in students.items():
+                name = student_data['이름']
+                student_number = student_data['학번']
+                phone_number = student_data['전화번호']
+                password = student_data['비밀번호']
+
+                line = f"{name},{student_number},{phone_number},{password}\n"
+                file.write(line)
+
+        entry_name.delete(0, 'end')
+        entry_number.delete(0, 'end')
+        entry_phone.delete(0, 'end')
+        entry_password.delete(0, 'end')
+
+        messagebox.showinfo("학생 정보 저장 성공", "학생 정보를 성공적으로 저장하였습니다.")
+
+        answer_button.config(command=save)
+       
+
+def course_system():
+    delete_menu()
+    button2_1.pack()
+    button2_2.pack()
+    button1_4.pack()
+    button1_5.pack()
+
+def hide_checkboxes():
+    for cb in checkboxes:
+        cb.pack_forget()
+
+def course_course():
+    delete_menu()
+    global checkbox
+    checkboxes=[]
+    def hide_checkboxes():
+        for cb in checkboxes:
+            cb.pack_forget()
+            course_system()
+
+    for i, course_name in enumerate(course):
+        checkbox = tk.Checkbutton(text=course_name, command=lambda idx=i: select_course(idx))
+        checkbox.pack()
+        checkboxes.append(checkbox)
+    button_return2.config(command=hide_checkboxes)
+    button_return2.pack(side=tk.BOTTOM)
+
+
+def select_course(index):
+    course_name = course[index]
+    if course_name in selected_course:
+        selected_course.remove(course_name)
+        messagebox.showinfo("알림", f"{course_name}이(가) 선택 해제되었습니다.")
+    else:
+        selected_course.append(course_name)
+        messagebox.showinfo("알림", f"{course_name}이(가) 선택되었습니다.")
+
+
+def back_main_menu():
+    if button1 is not None:
+        button1.pack()
+    delete_menu()
+
 
 
 
@@ -117,6 +169,7 @@ def slected_courses():
 
 def deleted1_student():
     delete_menu()
+    update_student_list()
     student_listbox.pack()
     student_listbox.delete(0,tk.END)
     with open('student.txt', 'r') as file:
@@ -153,18 +206,6 @@ def deleted1_student():
             student_listbox.insert(tk.END, info)
     button_return.pack()
 
-def delete_student():
-    delete_menu()
-    student_listbox.pack()
-    student_listbox.delete(0, tk.END)
-      
-    for name,number,phone in zip(names,numbers,phones):
-        info = f"Name: {name}, Number: {number}, Phone: {phone}"
-        student_listbox.insert(tk.END, info)
-    delete_button.pack()
-    delete_button.configure(command=lambda:deleted1_student())
-    button_return.pack()
-    button_return.configure(command=lambda:student_system())
     
 def delete_menu():
     button1_1.pack_forget()
@@ -199,28 +240,16 @@ def delete_entry():
         entry_password1.pack_forget()
         student_number1.pack_forget()
         password1.pack_forget()
+        
 
-def save(name,number,phone,password):
-    students[number]={
-        '이름':name,
-        '비밀번호':password,
-        '전화번호':phone,
-        '학번':number    
-    } 
-    with open(filename, 'w') as file:
-    
-        for student_number, student_data in students.items():
-            # Accessing student information from student_data dictionary
-            name = student_data['이름']
-            student_number = student_data['학번']
-            phone_number = student_data['전화번호']
-            password = student_data['비밀번호']
 
-                # Writing student information to the file
-            line = f"{name},{student_number},{phone_number},{password}\n"
-            file.write(line)
-            student_system()
-    
+
+def update_student_list():
+    student_listbox.delete(0, tk.END)
+
+    for name, number, phone in zip(names, numbers, phones):
+        info = f"Name: {name}, Number: {number}, Phone: {phone}"
+        student_listbox.insert(tk.END, info) 
 
 def login():
     global entry_number1,entry_password1,student_number1,password1
@@ -243,7 +272,7 @@ def login():
                 stored_student_number, stored_password = line.split(",")[1:3]
                 
                 if number == stored_student_number and password == stored_password:
-                    print("Login successful!")
+                    messagebox.showinfo("로그인 성공","로그인에 성공하셨습니다")
                     student_number1.pack_forget()
                     entry_number1.pack_forget()
                     entry_password1.pack_forget()
@@ -256,7 +285,7 @@ def login():
                 else:
                     entry_number1.delete(0,tk.END)
                     entry_password1.delete(0,tk.END)
-                    print("잘못된 접근입니다")
+                    messagebox.showinfo("로그인 실패","로그인에 ")
 
 def grade_system():
     delete_menu()
