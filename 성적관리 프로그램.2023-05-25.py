@@ -33,8 +33,8 @@ entry_password = None  # entry_password 변수 초기화
 entry_number1 = None
 
 def update_timetable():
-    timetable_frame.pack()
     global timetable_labels
+
     for i, course_name in enumerate(course_timetable):
         matched_timeslots = course_timetable.get(course_name, [])
         for time_slot in matched_timeslots:
@@ -49,7 +49,6 @@ def update_timetable():
                 cell_label.config(text="", bg="white")
 
 
-    set_selected_courses(selected_courses)
     update_timetable()
 def student_system():
     if button1 is not None:
