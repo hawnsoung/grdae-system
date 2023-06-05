@@ -322,7 +322,7 @@ def submit_grade():             # 입력한 성적을 처리하는 함수
     selected_course()
     selected_course.append(course_listbox.get(course_listbox.curselection()))
     for course in selected_course:
-        grade = grades_entries[course].get()            # 여기에 성적 처리 로직 추가
+        grade = grades_entries[course].get()            # 여기에 성적 처리 정의 추가
         print(f"과목: {course}, 성적: {grade}")
     course_listbox = tk.Listbox(window, selectmode=tk.MULTIPLE)   
     course_listbox = tk.Listbox(window, selectmode=tk.MULTIPLE)
@@ -404,19 +404,19 @@ button2_3=tk.Button(text="수강정보")
 button2_3.pack_forget()
 
 button3_1=tk.Button(window,text="성적입력",command=submit_grade)
-button3_1.pack()
+button3_1.pack_forget()
 
 button3_2=tk.Button(window,text="성적수정")
-button3_2.pack()
+button3_2.pack_forget()
 
 button3_3=tk.Button(window,text="성적조회")
-button3_3.pack()
+button3_3.pack_forget()
 
 button3_4=tk.Button(window,text="성적통계")
-button3_4.pack()
+button3_4.pack_forget()
 
 button3_5=tk.Button(window,text="메인메뉴로 돌아가기")
-button3_5.pack()
+button3_5.pack_forget()
 
 
 
