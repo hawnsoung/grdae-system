@@ -116,7 +116,7 @@ def course_system():
 
 def show_course_info():
     delete_menu()
-   
+   aaaaaaaaaaa
 
     label = tk.Label(text="수강 정보")
     label.pack()
