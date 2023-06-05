@@ -12,7 +12,7 @@ course = ["프로그래밍 입문", "크리에이티브디자인", "ai응용수�
 passwords = ['1']
 selected_course = []
 students = {}
-filename = r"C:\Users\Administrator\Desktop\박준현\student.txt"
+filename = r"C:\Users\OWNER\Documents\GitHub\grdae-system\student.txt"
 
 entry_name = None  # entry_name 변수 초기화
 entry_number = None  # entry_number 변수 초기화
