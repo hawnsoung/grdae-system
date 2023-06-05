@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import pickle
 
 window = tk.Tk()
 window.geometry("200x300")
@@ -113,9 +114,31 @@ def course_system():
     button1_4.pack()
     button1_5.pack()
 
-def hide_checkboxes():
-    for cb in checkboxes:
-        cb.pack_forget()
+def show_course_info():
+    delete_menu()
+   
+
+    label = tk.Label(text="수강 정보")
+    label.pack()
+    global selected_course
+    selected_course = load_courses()
+    
+    for course_name in selected_course:
+        course_label = tk.Label(text=course_name)
+        course_label.pack()
+
+    button_return = tk.Button(text="이전", command=course_system)
+    button_return.pack(side=tk.BOTTOM)
+
+def save_courses():
+    with open("courses.pickle", "wb") as f:
+        pickle.dump(selected_course, f)
+def load_courses():
+    try:
+        with open("courses.pickle", "rb") as f:
+            return pickle.load(f)
+    except FileNotFoundError:
+        return []
 
 def course_course():
     delete_menu()
@@ -125,6 +148,7 @@ def course_course():
         for cb in checkboxes:
             cb.pack_forget()
             course_system()
+            button_return2.pack_forget()
 
     for i, course_name in enumerate(course):
         checkbox = tk.Checkbutton(text=course_name, command=lambda idx=i: select_course(idx))
@@ -132,6 +156,7 @@ def course_course():
         checkboxes.append(checkbox)
     button_return2.config(command=hide_checkboxes)
     button_return2.pack(side=tk.BOTTOM)
+    
 
 
 def select_course(index):
@@ -142,6 +167,7 @@ def select_course(index):
     else:
         selected_course.append(course_name)
         messagebox.showinfo("알림", f"{course_name}이(가) 선택되었습니다.")
+    save_courses()
 
 
 def back_main_menu():
@@ -338,7 +364,7 @@ button1_4.pack_forget()
 button1_5=tk.Button(text="수강정보추가",command=course_course)
 button1_5.pack_forget()
 
-button2_1=tk.Button(text="수강정보확인")
+button2_1=tk.Button(text="수강정보확인",command=show_course_info)
 button2_1.pack_forget()
 
 button2_2=tk.Button(text="수강시간확인")
@@ -346,6 +372,10 @@ button2_2.pack_forget()
 
 button2_3=tk.Button(text="수강정보")
 button2_3.pack_forget()
+
+button3=tk.Button(window,text="성적정보관리기능",command=grade_system)
+button3.pack()
+
 
 button_return2=tk.Button(text="이전",command=course_system)
 button_return2.pack_forget()
