@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import pickle
+from collections import defaultdict
 
 window = tk.Tk()
 window.geometry("200x300")
@@ -9,11 +10,20 @@ window.title("학생 수강 정보 관리 시스템")
 names = []  # 학생의 이름
 numbers = ['1']  # 학생의 학번
 phones = []  # 학생의 핸드폰 번호
-course=["프로그래밍 입문","크리에이티브디자인","AI응용수학","DU실용영어","AI융합비전설계","나의대학생활과진로","컴퓨팅사과와코딩","DU사랑빛자유프로젝트",""]  # 학생의 수강정보
+course=["프로그래밍 입문","크리에이티브디자인","AI응용수학","DU실용영어","AI융합비전설계","나의대학생활과진로","컴퓨팅사과와코딩","DU사랑빛자유프로젝트"]  # 학생의 수강정보
 passwords = ['1']
 selected_course = []
 students = {}
 filename = r"C:\Users\hawns\OneDrive\문서\GitHub\grdae-system\student.txt"
+course_timetable = {
+  '프로그래밍 입문': ['월요일10:00', '수요일 10:00'],
+  '사랑빛자유프로젝트': ['화요일 10:00'],
+  'ai응용수학': ['월요일 13:30','수요일 3:00'],
+  '크리에이티브디자인':['화요일 13:30','목요일 15:00' ],
+  'Du실용영어':['화요일 16:00','목요일 12:00'],
+  'Ai융합비전설계':['목요일 11:00'],
+  '나의대학생활과진로':['목요일 10:00'],
+}
 
 entry_name = None  # entry_name 변수 초기화
 entry_number = None  # entry_number 변수 초기화
@@ -113,11 +123,16 @@ def course_system():
     button2_2.pack()
     button1_4.pack()
     button1_5.pack()
+    delete_labels()
+    
 
+def delete_labels():
+    for widget in window.winfo_children():
+        if isinstance(widget, tk.Label):
+            widget.pack_forget()
+            button_return.pack_forget()
 def show_course_info():
     delete_menu()
-   
-
     label = tk.Label(text="수강 정보")
     label.pack()
     global selected_course
@@ -139,6 +154,15 @@ def load_courses():
             return pickle.load(f)
     except FileNotFoundError:
         return []
+def time_table()
+    global time_course
+    time_course=load_course()
+    label = tk.Label(text="시간표",tk=TOP)
+    label.pack()
+    for course_name in time_course:
+        time_slots = course_timetable.get(course_name)
+        if time_slots:
+            print(course_name, ':', ', '.join(time_slots))
 
 def course_course():
     delete_menu()
@@ -234,38 +258,9 @@ def deleted1_student():
 
     
 def delete_menu():
-    button1_1.pack_forget()
-    button1_2.pack_forget()
-    button1_3.pack_forget()
-    button1_4.pack_forget()
-    button2_1.pack_forget()
-    button2_2.pack_forget()
-    button2_3.pack_forget()
-    button1_5.pack_forget()
-    student_listbox.pack_forget()
-    delete_button.pack_forget()
-    button_return.pack_forget()
-    answer_button.pack_forget()   
-
-def delete_entry():
-        global entry_name
-        entry_name.pack_forget()
-        entry_number.pack_forget()
-        entry_phone.pack_forget()
-        label_name.pack_forget()
-        student_number.pack_forget()
-        phone_number.pack_forget()
-        password.pack_forget()
-        entry_password.pack_forget()
-        answer_button.pack_forget()
-        entry_name.delete(0,tk.END)
-        entry_number.delete(0,tk.END)
-        entry_phone.delete(0,tk.END)
-        entry_password.delete(0,tk.END)
-        entry_number1.pack_forget()
-        entry_password1.pack_forget()
-        student_number1.pack_forget()
-        password1.pack_forget()
+   for widget in window.winfo_children():
+        if isinstance(widget, (tk.Entry, tk.Button, tk.Label)):
+            widget.pack_forget()
         
 
 
