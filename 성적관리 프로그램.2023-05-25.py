@@ -4,7 +4,7 @@ import pickle
 from collections import defaultdict
 
 window = tk.Tk()
-window.geometry("200x300")
+window.geometry("800x1200")
 window.title("학생 수강 정보 관리 시스템")
 
 names = []  # 학생의 이름
@@ -25,13 +25,32 @@ course_timetable = {
   '나의대학생활과진로':['목요일 10:00'],
 }
 
+
 entry_name = None  # entry_name 변수 초기화
 entry_number = None  # entry_number 변수 초기화
 entry_phone = None  # entry_phone 변수 초기화
 entry_password = None  # entry_password 변수 초기화
 entry_number1 = None
 
+def update_timetable():
+    timetable_frame.pack()
+    global timetable_labels
+    for i, course_name in enumerate(course_timetable):
+        matched_timeslots = course_timetable.get(course_name, [])
+        for time_slot in matched_timeslots:
+            day_str, time_str = time_slot.split('요일')
+            day = ['월', '화', '수', '목', '금', '토', '일'].index(day_str)
+            hour = int(time_str[:2])
+            row = hour -9
+            cell_label = timetable_labels[row][day]
+            if course_name in selected_course:
+                cell_label.config(text=course_name, bg="lightblue")
+            else:
+                cell_label.config(text="", bg="white")
 
+
+    set_selected_courses(selected_courses)
+    update_timetable()
 def student_system():
     if button1 is not None:
         button1.pack_forget()
@@ -45,7 +64,6 @@ def student_system():
     button_return.pack_forget()
     student_listbox.pack_forget()
     delete_button.pack_forget()
-    delete_entry()
 def add_student():
     if button1 is not None:
         button1.pack_forget()
@@ -137,10 +155,11 @@ def show_course_info():
     label.pack()
     global selected_course
     selected_course = load_courses()
-    
+
     for course_name in selected_course:
         course_label = tk.Label(text=course_name)
         course_label.pack()
+
 
     button_return = tk.Button(text="이전", command=course_system)
     button_return.pack(side=tk.BOTTOM)
@@ -148,21 +167,15 @@ def show_course_info():
 def save_courses():
     with open("courses.pickle", "wb") as f:
         pickle.dump(selected_course, f)
+
+
 def load_courses():
     try:
         with open("courses.pickle", "rb") as f:
             return pickle.load(f)
     except FileNotFoundError:
         return []
-def time_table()
-    global time_course
-    time_course=load_course()
-    label = tk.Label(text="시간표",tk=TOP)
-    label.pack()
-    for course_name in time_course:
-        time_slots = course_timetable.get(course_name)
-        if time_slots:
-            print(course_name, ':', ', '.join(time_slots))
+
 
 def course_course():
     delete_menu()
@@ -183,16 +196,15 @@ def course_course():
     
 
 
-def select_course(index):
-    course_name = course[index]
-    if course_name in selected_course:
-        selected_course.remove(course_name)
-        messagebox.showinfo("알림", f"{course_name}이(가) 선택 해제되었습니다.")
-    else:
+def select_course(idx):
+    course_name = list(course_timetable.keys())[idx]
+    if course_name not in selected_course:
         selected_course.append(course_name)
-        messagebox.showinfo("알림", f"{course_name}이(가) 선택되었습니다.")
-    save_courses()
+    else:
+        selected_course.remove(course_name)
 
+
+    
 
 def back_main_menu():
     if button1 is not None:
@@ -362,7 +374,7 @@ button1_5.pack_forget()
 button2_1=tk.Button(text="수강정보확인",command=show_course_info)
 button2_1.pack_forget()
 
-button2_2=tk.Button(text="수강시간확인")
+button2_2=tk.Button(text="수강시간확인",command=update_timetable)
 button2_2.pack_forget()
 
 button2_3=tk.Button(text="수강정보")
@@ -371,6 +383,15 @@ button2_3.pack_forget()
 button3=tk.Button(window,text="성적정보관리기능",command=grade_system)
 button3.pack()
 
+timetable_frame = tk.Frame(window)
+timetable_frame.pack(padx=10, pady=10)
+timetable_frame.pack_forget()
+
+timetable_labels = [[tk.Label(timetable_frame, width=10, height=2, relief="solid") for _ in range(7)] for _ in range(10)]
+for i, row in enumerate(timetable_labels):
+    for j, label in enumerate(row):
+        label.grid(row=i, column=j)
+    
 
 button_return2=tk.Button(text="이전",command=course_system)
 button_return2.pack_forget()
