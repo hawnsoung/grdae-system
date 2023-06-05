@@ -1,17 +1,17 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox          #Tkunter 에서 제공하는 함수를 들고와 사용
 import pickle
 
-window = tk.Tk()
-window.geometry("200x300")
-window.title("학생 수강 정보 관리 시스템")
+window = tk.Tk()            # 창 생성
+window.geometry("200x300")          #창 크기
+window.title("학생 수강 정보 관리 시스템")          #창 제목
 
 names = []  # 학생의 이름
 numbers = ['1']  # 학생의 학번
 phones = []  # 학생의 핸드폰 번호
 course=["프로그래밍 입문","크리에이티브디자인","AI응용수학","DU실용영어","AI융합비전설계","나의대학생활과진로","컴퓨팅사과와코딩","DU사랑빛자유프로젝트",""]  # 학생의 수강정보
-passwords = ['1']
-selected_course = []
+passwords = ['1']           #비밀번호
+selected_course = []            #선택한 과목
 students = {}
 filename = r"C:\Users\hawns\OneDrive\문서\GitHub\grdae-system\student.txt"
 
@@ -313,11 +313,40 @@ def login():
                     entry_password1.delete(0,tk.END)
                     messagebox.showinfo("로그인 실패","로그인에 ")
 
-def grade_system():
-    delete_menu()
-    login()
 
     
+def grade_system():
+    login()
+
+def submit_grade():             # 입력한 성적을 처리하는 함수
+    selected_course()
+    selected_course.append(course_listbox.get(course_listbox.curselection()))
+    for course in selected_course:
+        grade = grades_entries[course].get()            # 여기에 성적 처리 로직 추가
+        print(f"과목: {course}, 성적: {grade}")
+    course_listbox = tk.Listbox(window, selectmode=tk.MULTIPLE)   
+    course_listbox = tk.Listbox(window, selectmode=tk.MULTIPLE)
+    course_listbox.pack()
+
+    for course in course:
+        course_listbox.insert(tk.END, course)
+
+    add_button = tk.Button(window, text="과목 추가", command=add_course)
+    add_button.pack()
+
+    grades_entries = {}
+    for course in course:
+        entry_label = tk.Label(window, text=course)
+        entry_label.pack()
+        entry = tk.Entry(window)
+        entry.pack()
+        grades_entries[course] = entry
+
+    submit_button = tk.Button(window, text="저장", command=submit_grade)
+    submit_button.pack()    
+
+
+
 
 
    
@@ -346,8 +375,9 @@ button1.pack()
 button2=tk.Button(window,text="수강정보시스템",command=course_system)
 button2.pack_forget()
 
-button3=tk.Button(window,text="성적정보확인시스템",command=grade_system)
-button3.pack_forget()
+button3=tk.Button(window,text="성적정보관리기능",command=grade_system)
+button3.pack()
+
 
 button1_1=tk.Button(window,text="학생추가",command=add_student)
 button1_1.pack_forget()
@@ -373,8 +403,21 @@ button2_2.pack_forget()
 button2_3=tk.Button(text="수강정보")
 button2_3.pack_forget()
 
-button3=tk.Button(window,text="성적정보관리기능",command=grade_system)
-button3.pack()
+button3_1=tk.Button(window,text="성적입력",command=submit_grade)
+button3_1.pack()
+
+button3_2=tk.Button(window,text="성적수정")
+button3_2.pack()
+
+button3_3=tk.Button(window,text="성적조회")
+button3_3.pack()
+
+button3_4=tk.Button(window,text="성적통계")
+button3_4.pack()
+
+button3_5=tk.Button(window,text="메인메뉴로 돌아가기")
+button3_5.pack()
+
 
 
 button_return2=tk.Button(text="이전",command=course_system)
@@ -398,4 +441,4 @@ course_listbox.pack_forget()
 delete_button=tk.Button(text="삭제")
 delete_button.pack_forget
 
-window.mainloop()
+window.mainloop()           #창 실행
