@@ -3,7 +3,7 @@ from tkinter import messagebox          #Tkunter 에서 제공하는 함수를 �
 import pickle
 
 window = tk.Tk()            # 창 생성
-window.geometry("200x300")          #창 크기
+window.geometry("700x700")          #창 크기
 window.title("학생 수강 정보 관리 시스템")          #창 제목
 
 names = []  # 학생의 이름
@@ -13,6 +13,7 @@ course=["프로그래밍 입문","크리에이티브디자인","AI응용수학",
 passwords = ['1']           #비밀번호
 selected_course = []            #선택한 과목
 students = {}
+grades_entries = {}
 filename = r"C:\Users\hawns\OneDrive\문서\GitHub\grdae-system\student.txt"
 
 entry_name = None  # entry_name 변수 초기화
@@ -173,6 +174,7 @@ def select_course(index):
 def back_main_menu():
     if button1 is not None:
         button1.pack()
+        button3.pack()
     delete_menu()
 
 
@@ -246,6 +248,11 @@ def delete_menu():
     delete_button.pack_forget()
     button_return.pack_forget()
     answer_button.pack_forget()   
+    button3_1.pack_forget()
+    button3_2.pack_forget()
+    button3_3.pack_forget()
+    button3_4.pack_forget()
+    button3_5.pack_forget()
 
 def delete_entry():
         global entry_name
@@ -318,55 +325,45 @@ def login():
 def grade_system():
     login()
 
+def grade_system_():
+    if button1 is not None:
+        button1.pack_forget()
+    if button2 is not None:
+        button2.pack_forget()
+    if button3 is not None:
+        button3.pack_forget()
+    button3_1.pack(side=tk.TOP)
+    button3_2.pack(side=tk.TOP)
+    button3_3.pack(side=tk.TOP)
+    button3_4.pack(side=tk.TOP)
+    button3_5.pack(side=tk.TOP)
+    button_return.pack_forget()
+    student_listbox.pack_forget()
+    delete_button.pack_forget()
+    delete_entry()
 
-def submit_grade():             # 입력한 성적을 처리하는 함수
-    selected_course()
-    selected_course.append(course_listbox.get(course_listbox.curselection()))
-    for course in selected_course:
-        grade = grades_entries[course].get()            # 여기에 성적 처리 정의 추가
-        print(f"과목: {course}, 성적: {grade}")
-    course_listbox = tk.Listbox(window, selectmode=tk.MULTIPLE)   
-    course_listbox = tk.Listbox(window, selectmode=tk.MULTIPLE)
-    course_listbox.pack()
+def save_grades():
+    grades = {}
+    for course_, entry in grades_entries.items():
+        grade = entry.get()
+        grades[course] = grade
 
-    for course in course:
-        course_listbox.insert(tk.END, course)
 
-    add_button = tk.Button(window, text="과목 추가", command=add_course)
-    add_button.pack()
-
-    grades_entries = {}
-    for course in course:
+course_list = ["프로그래밍 입문", "크리에이티브디자인", "AI응용수학", "DU실용영어", "AI융합비전설계", "나의대학생활과진로", "컴퓨팅사과와코딩", "DU사랑빛자유프로젝트"]
+def grade_input():
+    
+    for course in course_list:
         entry_label = tk.Label(window, text=course)
         entry_label.pack()
         entry = tk.Entry(window)
         entry.pack()
         grades_entries[course] = entry
+        submit_button = tk.Button(window, text="저장", command=save_grades)
+        submit_button.pack()
 
-    submit_button = tk.Button(window, text="저장", command=submit_grade)
-    submit_button.pack()    
-
-
-
-
-
-   
-        
 
 
     
-main_menu_frame = tk.Frame(window)
-main_menu_frame.pack()
-    
-main_frame = tk.Frame(window)
-main_frame.pack()
-
-student_system_frame=tk.Frame(window)
-student_system_frame.pack()
-
-grade_system_frame=tk.Frame(window)
-grade_system_frame.pack()
-
 
 
 
@@ -376,7 +373,7 @@ button1.pack()
 button2=tk.Button(window,text="수강정보시스템",command=course_system)
 button2.pack_forget()
 
-button3=tk.Button(window,text="성적정보관리기능",command=grade_system)
+button3=tk.Button(window,text="성적정보관리기능",command=grade_system_)
 button3.pack()
 
 
@@ -404,7 +401,7 @@ button2_2.pack_forget()
 button2_3=tk.Button(text="수강정보")
 button2_3.pack_forget()
 
-button3_1=tk.Button(window,text="성적입력",command=submit_grade)
+button3_1=tk.Button(window,text="성적입력",command=grade_input)
 button3_1.pack_forget()
 
 button3_2=tk.Button(window,text="성적수정")
@@ -416,7 +413,7 @@ button3_3.pack_forget()
 button3_4=tk.Button(window,text="성적통계")
 button3_4.pack_forget()
 
-button3_5=tk.Button(window,text="메인메뉴로 돌아가기")
+button3_5=tk.Button(window,text="메인메뉴로 돌아가기",command=back_main_menu)
 button3_5.pack_forget()
 
 
