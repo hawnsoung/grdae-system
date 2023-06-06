@@ -318,6 +318,7 @@ def login():
 def grade_system():
     login()
 
+
 def submit_grade():             # 입력한 성적을 처리하는 함수
     selected_course()
     selected_course.append(course_listbox.get(course_listbox.curselection()))
