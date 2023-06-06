@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import pickle
-from collections import defaultdict
+
 
 window = tk.Tk()
 window.geometry("800x1200")
@@ -32,7 +32,7 @@ entry_phone = None  # entry_phone 변수 초기화
 entry_password = None  # entry_password 변수 초기화
 entry_number1 = None
 
-def update_timetable():
+def update_timetable():#학생시간표
     global timetable_labels
 
     for i, course_name in enumerate(course_timetable):
@@ -50,7 +50,8 @@ def update_timetable():
 
 
     update_timetable()
-def student_system():
+
+def student_system():#학생관리시스템
     if button1 is not None:
         button1.pack_forget()
     if button2 is not None:
@@ -63,7 +64,8 @@ def student_system():
     button_return.pack_forget()
     student_listbox.pack_forget()
     delete_button.pack_forget()
-def add_student():
+
+def add_student():#학생추가
     if button1 is not None:
         button1.pack_forget()
     if button2 is not None:
@@ -91,7 +93,8 @@ def add_student():
     button_return.pack()
     if button1_4 is not None:
         button1_4.pack()
-def save(name,number,phone,password):
+
+def save(name,number,phone,password):#학생추가에서 확인버튼이 눌렸을경우
         name = entry_name.get()
         number = entry_number.get()
         phone = entry_phone.get()
@@ -134,21 +137,22 @@ def save(name,number,phone,password):
         answer_button.config(command=save)
        
 
-def course_system():
+def course_system():#수강관리시스템
     delete_menu()
     button2_1.pack()
     button2_2.pack()
     button1_4.pack()
     button1_5.pack()
-    delete_labels()
+    delete_labels.pack()
     
 
-def delete_labels():
+def delete_labels():#학생삭제
     for widget in window.winfo_children():
         if isinstance(widget, tk.Label):
             widget.pack_forget()
             button_return.pack_forget()
-def show_course_info():
+            
+def show_course_info():#수강관리시스템에서 수강과목확인
     delete_menu()
     label = tk.Label(text="수강 정보")
     label.pack()
@@ -163,12 +167,12 @@ def show_course_info():
     button_return = tk.Button(text="이전", command=course_system)
     button_return.pack(side=tk.BOTTOM)
 
-def save_courses():
+def save_courses():#수강관리시스템에서 수강신청메뉴로들어가서 저장하는 코드
     with open("courses.pickle", "wb") as f:
         pickle.dump(selected_course, f)
 
 
-def load_courses():
+def load_courses():#저장되어있는 코드를 불러오는 코드
     try:
         with open("courses.pickle", "rb") as f:
             return pickle.load(f)
@@ -176,7 +180,7 @@ def load_courses():
         return []
 
 
-def course_course():
+def course_course():#체크박스를 생성하는 코드
     delete_menu()
     global checkbox
     checkboxes=[]
@@ -195,7 +199,7 @@ def course_course():
     
 
 
-def select_course(idx):
+def select_course(idx):#체크박스가 체크되어있을때 저장하는 코드
     course_name = list(course_timetable.keys())[idx]
     if course_name not in selected_course:
         selected_course.append(course_name)
@@ -205,28 +209,10 @@ def select_course(idx):
 
     
 
-def back_main_menu():
+def back_main_menu():#메인메뉴로 돌아가는코드
     if button1 is not None:
         button1.pack()
     delete_menu()
-
-
-
-
-
-
-
-
-
-def slected_courses():
-    delete_menu()
-    course_listbox.pack()
-    course_listbox.delete(0, tk.END)
-    selected_indices = course_listbox.curselection()
-    if selected_indices:
-        for i in course:
-            info=f"수강과목:", course[i]
-            course_listbox.insert(tk.END, info)
 
 def deleted1_student():
     delete_menu()
@@ -268,7 +254,7 @@ def deleted1_student():
     button_return.pack()
 
     
-def delete_menu():
+def delete_menu():#모든메뉴를 삭제하는 코드
    for widget in window.winfo_children():
         if isinstance(widget, (tk.Entry, tk.Button, tk.Label)):
             widget.pack_forget()
@@ -276,14 +262,14 @@ def delete_menu():
 
 
 
-def update_student_list():
+def update_student_list():#학생삭제에서 업데이트 하는 메뉴
     student_listbox.delete(0, tk.END)
 
     for name, number, phone in zip(names, numbers, phones):
         info = f"Name: {name}, Number: {number}, Phone: {phone}"
         student_listbox.insert(tk.END, info) 
 
-def login():
+def login():#로그인코드
     global entry_number1,entry_password1,student_number1,password1
     student_number1 = tk.Label(text="학번:")
     student_number1.pack()
@@ -319,15 +305,43 @@ def login():
                     entry_password1.delete(0,tk.END)
                     messagebox.showinfo("로그인 실패","로그인에 ")
 
-def grade_system():
-    delete_menu()
-    login()
+def grade_system_():
+    if button1 is not None:
+        button1.pack_forget()
+    if button2 is not None:
+        button2.pack_forget()
+    if button3 is not None:
+        button3.pack_forget()
+    button3_1.pack(side=tk.TOP)
+    button3_2.pack(side=tk.TOP)
+    button3_3.pack(side=tk.TOP)
+    button3_4.pack(side=tk.TOP)
+    button3_5.pack(side=tk.TOP)
+    button_return.pack_forget()
+    student_listbox.pack_forget()
+    delete_button.pack_forget()
+    delete_entry()
 
     
+def save_grades():
+    grades = {}
+    for course, entry in grades_entries.items():
+        grade = entry.get()
+        grades[course] = grade
+
+course_list = ["프로그래밍 입문", "크리에이티브디자인", "AI응용수학", "DU실용영어", "AI융합비전설계", "나의대학생활과진로", "컴퓨팅사과와코딩", "DU사랑빛자유프로젝트"]
+
+def grade_input():  
+    for course in course_list:
+    entry_label = tk.Label(window, text=course)
+    entry_label.pack()
+    entry = tk.Entry(window)
+    entry.pack()
+    grades_entries[course] = entry
+    submit_button = tk.Button(window, text="저장", command=save_grades)
+    submit_button.pack()
 
 
-   
-        
 
 
     
@@ -390,7 +404,18 @@ timetable_labels = [[tk.Label(timetable_frame, width=10, height=2, relief="solid
 for i, row in enumerate(timetable_labels):
     for j, label in enumerate(row):
         label.grid(row=i, column=j)
-    
+
+button3_1=tk.Button(window,text="성적입력",command=grade_input)
+button3_1.pack_forget()
+
+button3_2=tk.Button(window,text="성적수정")
+button3_2.pack_forget()
+
+button3_3=tk.Button(window,text="성적조회")
+button3_3.pack_forget()
+
+button3_4=tk.Button(window,text="성적통계")
+button3_4.pack_forget()
 
 button_return2=tk.Button(text="이전",command=course_system)
 button_return2.pack_forget()
