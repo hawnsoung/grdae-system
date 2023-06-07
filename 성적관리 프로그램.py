@@ -1,8 +1,3 @@
-import tkinter as tk
-
-window = tk.Tk()
-
-window.title("Student Management System")
 names=[]    #학생의 이름
 numbers=[]  #학생의 학번
 phones=[]   #학생의 핸드폰 번호
@@ -240,5 +235,3 @@ while True: #메인메뉴
     elif user_input == 5:   # 메인메뉴에서 5번이 선택될 경우
         print("프로그램을 종료합니다.")
         break
-
-window.mainloop()
